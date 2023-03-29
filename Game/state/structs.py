@@ -5,6 +5,7 @@
 class GameStructs:
     def __init__(self,queue) -> None:
         self.input_queue = queue
+        self.is_running = True
         #self.elements = {"cells": [], "walls": [], "pawns": []}
 
     def create_board(self, SIZE):

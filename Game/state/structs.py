@@ -1,10 +1,10 @@
 
 # board struct is represented by an array of arrays that contains dicts for every cells
-
-
+from asyncio import Queue
 class GameStructs:
-    def __init__(self,queue) -> None:
-        self.input_queue = queue
+    def __init__(self) -> None:
+        self.input_queue = Queue()
+        self.mouse_position_queue = Queue()
         self.is_running = True
         #self.elements = {"cells": [], "walls": [], "pawns": []}
 

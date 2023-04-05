@@ -11,7 +11,6 @@ class Pawn:
         self.color = color
         self.surface = Surface((self.width, self.height), SRCALPHA)
         self.rect = Rect(self.x, self.y, self.width, self.height)
-        print("test")
         self.draw()
 
     def draw(self):

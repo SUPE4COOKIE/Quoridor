@@ -19,4 +19,6 @@ async def event_loop(struct):
                 if event.button == 1:
                     # print the position of the click
                     await struct.input_queue.put(event.pos)
+                    
+        struct.mouse_position_queue.put_nowait(pygame.mouse.get_pos())
         await asyncio.sleep(0.01)

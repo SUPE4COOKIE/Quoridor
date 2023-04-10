@@ -5,8 +5,9 @@ class GameStructs:
     def __init__(self) -> None:
         self.input_queue = Queue()
         self.mouse_position_queue = Queue()
+        self.hovered_wall = None
         self.is_running = True
-        #self.elements = {"cells": [], "walls": [], "pawns": []}
+        self.tiles = []
 
     def create_board(self, SIZE):
 
@@ -16,16 +17,7 @@ class GameStructs:
         if SIZE not in [5, 7, 9, 11]:  # if the size is not in the list of valid sizes, return
             return
 
-        self.board = []  # create the board array
-
-        for _ in range(SIZE):  # for every row
-            new_row = []  # create a new row
-            for _ in range(SIZE):
-                #TODO: instead of using bool for the walls, use the object of the wall (otherwise None) and same for the pawn
-                new_cell = {"top": False, "bottom": False,
-                            "left": False, "right": False, "pawn": None}
-                new_row.append(new_cell)
-            self.board.append(new_row)
+        self.tiles = []  # init the tiles array
 
         self.__init_pawn_position(SIZE)  # init the pawn position
 

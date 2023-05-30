@@ -5,11 +5,14 @@ class Pawn:
         self.x = x
         self.y = y
         self.color = color
+        self.pawn = None
 
-    def draw(self, surface, tile_size):
-        pawn_radius = tile_size // 4
-        pawn_x = self.x * tile_size + tile_size // 2
-        pawn_y = self.y * tile_size + tile_size // 2
-        print(pawn_x, pawn_y)
-        circle(surface, self.color, (pawn_x, pawn_y), pawn_radius)
+    def draw_on_tile(self, surface, tile):
+        self.pawn = circle(surface, self.color, (tile.x + tile.size //2 , tile.y + tile.size //2) , tile.size // 4)
 
+    def remove_from_tile(self, surface, tile):
+        if self.pawn is not None:
+            self.pawn.fill(tile.color)
+
+    def get_circle(self):
+        return self.pawn

@@ -7,8 +7,7 @@ class Tile:
         self.x = x
         self.y = y
 
-        self.width = 100
-        self.height = 100
+        self.size = 95
 
         # instance of walls
         self.wall_up = wall_up
@@ -20,7 +19,7 @@ class Tile:
 
     def draw(self, win):
         # Draw the tile itself as a rectangle
-        pygame.draw.rect(win, self.color, (self.x, self.y, self.width, self.height))
+        pygame.draw.rect(win, self.color, (self.x, self.y, self.size, self.size))
         self.draw_walls(win, [True, True, True, True])
 
     def draw_walls(self, win, walls_to_show):

@@ -2,22 +2,13 @@ from Game.elements.window import NewWindow
 from Game.inputs.events import event_loop
 from Game.state.structs import GameStructs
 from pygame import init, draw, quit as pygame_quit
-import pygame
 from Game.elements.board import Board
 import asyncio
 
-
-def rect(window):
-    draw.rect(window.get_window(), (255, 0, 0), (0, 0, 100, 100))
-    draw.rect(window.get_window(), (255, 0, 0), (100, 100, 100, 100))
-
-
 async def game_logic(struct):
-    window = NewWindow(710, 710, "Game")
+    window = NewWindow(825, 825, "Game")
     while struct.is_running:
-        # rect(window)
-        # window.get_window().fill((0, 0, 0))
-        b = Board(6, 6)
+        b = Board(7, 7, 2)
         b.draw_walls(window.get_window())
         b.draw_pawns(window.get_window())
 
@@ -35,7 +26,11 @@ async def game_logic(struct):
 
 
         if not struct.input_queue.empty():
-            print(await struct.input_queue.get())
+            inputs = struct.input_queue.get_nowait()
+            for pawn in b.pawns:
+                if pawn is not None and pawn.get_circle().collidepoint(inputs):
+                    print("pawn clicked")
+                    break
             
         window.update()
         await asyncio.sleep(0.01)

@@ -8,7 +8,6 @@ class Board:
         self.players = players
         self.tiles = []
         self.__init_pawns()
-        self.pawn = Pawn(0, 0, (255, 0, 0))
         self.tile_size = 115
         self.__init_tiles()
 
@@ -30,7 +29,7 @@ class Board:
                 down = Wall(j * self.tile_size, (i + 1) * self.tile_size, "horizontal", active=bottom_active)
                 left = row[-1].wall_right if j > 0 else Wall(j * self.tile_size, i * self.tile_size, "vertical", active=left_active)
     
-                tile = Tile(j * self.tile_size + 20, i * self.tile_size + 20, up, right, down, left)
+                tile = Tile(j * self.tile_size + 20, i * self.tile_size + 20,(j,i), up, right, down, left)
                 row.append(tile)
     
             self.tiles.append(row)
@@ -58,10 +57,15 @@ class Board:
             self.pawns.append(Pawn(x, y, color))
 
 
-    def draw_walls(self, win):
+    def draw_walls(self, win): #TODO : Change the name
         for row in self.tiles:
             for tile in row:
                 tile.draw(win)
+                for pawn in self.pawns:
+                    if pawn.x == tile.x_index and pawn.y == tile.y_index:
+                        tile.pawn = pawn
+                    elif tile.pawn is not None and (pawn.x != tile.x_index or pawn.y != tile.y_index):
+                        tile.pawn = None
 
     def draw_pawns(self, win):
         for pawn in self.pawns:

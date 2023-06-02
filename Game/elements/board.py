@@ -68,5 +68,58 @@ class Board:
                         tile.pawn = None
 
     def draw_pawns(self, win):
+        self.win = win
         for pawn in self.pawns:
             pawn.draw_on_tile(win, self.tiles[pawn.y][pawn.x])
+
+    def get_neighbor(self, x, y, orientation):
+        if orientation == 1:
+            if y < 6: #TODO : hard coded 6
+                return self.tiles[y+1][x].GetWalls()[orientation]
+            else:
+                return self.tiles[y-1][x].GetWalls()[orientation]
+        else:
+            if x < 6:
+                return self.tiles[y][x+1].GetWalls()[orientation]
+            else:
+                return self.tiles[y][x-1].GetWalls()[orientation]
+    
+    def is_move_possible(self, tile, player_number):
+        pawn = self.pawns[player_number]
+        diff_x = abs(tile.x_index - pawn.x)
+        diff_y = abs(tile.y_index - pawn.y)
+
+        is_horizontal_move = (diff_x == 1) and (tile.y_index == pawn.y)
+        is_vertical_move = (diff_y == 1) and (tile.x_index == pawn.x)
+
+        # check if there's a wall in the way
+        if is_horizontal_move:
+            if pawn.x < tile.x_index: # moving right
+                return not tile.wall_left.placed
+            else: # moving left
+                return not tile.wall_right.placed
+        elif is_vertical_move:
+            if pawn.y < tile.y_index: # moving down
+                return not tile.wall_up.placed
+            else: # moving up
+                return not tile.wall_down.placed
+
+        if is_horizontal_move or is_vertical_move:
+            return True
+
+        return False
+
+    def is_wall_placeable(self, tile, orientation):
+
+        neighbor = self.get_neighbor(tile.x_index, tile.y_index, orientation)
+
+        if neighbor.placed:
+            return False
+        
+        if orientation == 1 and tile.wall_down.placed:
+            return False
+        elif orientation == 2 and tile.wall_right.placed:
+            return False
+        
+        return True
+            

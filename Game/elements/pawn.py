@@ -1,67 +1,23 @@
-from pygame import Surface, draw, Rect, SRCALPHA , display
-from pygame import Color
-
+from pygame.draw import circle
 
 class Pawn:
-    def __init__(self, x, y, width, height, color):
+    def __init__(self, x, y, color):
         self.x = x
         self.y = y
-        self.width = width
-        self.height = height
         self.color = color
-        self.surface = Surface((self.width, self.height), SRCALPHA)
-        self.rect = Rect(self.x, self.y, self.width, self.height)
-        self.draw()
+        self.pawn = None
 
-    def draw(self):
-        draw.rect(self.surface, self.color, self.rect)
+    def draw_on_tile(self, surface, tile):
 
-    def get_surface(self):
-        return self.surface
-
-    def get_rect(self):
-        return self.rect
-
-    def get_x(self):
-        return self.x
-
-    def get_y(self):
-        return self.y
-
-    def get_width(self):
-        return self.width
-
-    def get_height(self):
-        return self.height
-
-    def get_color(self):
-        return self.color
-
-    def set_x(self, x):
-        self.x = x
-
-    def set_y(self, y):
-        self.y = y
-
-    def set_width(self, width):
-        self.width = width
-
-    def set_height(self, height):
-        self.height = height
-
-    def set_color(self, color):
-        self.color = color
-
-    def set_rect(self, rect):
-        self.rect = rect
-
-    def set_surface(self, surface):
         self.surface = surface
+        self.pawn = circle(surface, self.color, (tile.x + tile.size //2 , tile.y + tile.size //2) , tile.size // 4)
 
-    def update(self):
-        self.rect = Rect(self.x, self.y, self.width, self.height)
-        self.surface = Surface((self.width, self.height), SRCALPHA)
-        self.draw()
+    def move(self, tile):
+        self.x = tile.x_index
+        self.y = tile.y_index
+    
+    def get_position(self):
+        return (self.x, self.y)
 
-    def __str__(self):
-        return f'x: {self.x}, y: {self.y}, width: {self.width}, height: {self.height}, color: {self.color}'
+    def get_circle(self):
+        return self.pawn

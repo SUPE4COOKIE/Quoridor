@@ -2,35 +2,47 @@ from Game.elements.window import NewWindow
 from Game.inputs.events import event_loop
 from Game.state.structs import GameStructs
 from pygame import init, draw, quit as pygame_quit
-import pygame
 from Game.elements.board import Board
 import asyncio
 
-
-def rect(window):
-    draw.rect(window.get_window(), (255, 0, 0), (0, 0, 100, 100))
-    draw.rect(window.get_window(), (255, 0, 0), (100, 100, 100, 100))
-
-
 async def game_logic(struct):
-    window = NewWindow(600, 600, "Game")
+    window = NewWindow(825, 825, "Game")
+    b = Board(7, 7, 1)
     while struct.is_running:
-        # rect(window)
-        # window.get_window().fill((0, 0, 0))
-        b = Board(5, 5)
         b.draw_walls(window.get_window())
+        b.draw_pawns(window.get_window())
 
         if not struct.mouse_position_queue.empty():
             mouse_position = struct.mouse_position_queue.get_nowait()
             for row in b.tiles:
                 for tile in row:
+                    if tile is not None and tile.get_rect().collidepoint(mouse_position):
+                        if tile.pawn is None:
+                            tile.hover()
+                        break
                     for wall in tile.GetWalls():
-                        if wall.get_rect().collidepoint(mouse_position):
-                            wall.hover(window.get_window(), (0, 255, 0))
+                        if wall is not None and wall.get_rect().collidepoint(mouse_position) and wall.active:
+                            if struct.hovered_wall == None:
+                                struct.hovered_wall = wall
+                                wall.hover(window.get_window(), (0, 255, 0))
+                                break
+            struct.hovered_wall = None
 
 
         if not struct.input_queue.empty():
-            print(await struct.input_queue.get())
+            inputs = struct.input_queue.get_nowait()
+            for row in b.tiles:
+                for tile in row:
+                    if tile is not None and tile.get_rect().collidepoint(inputs):
+                        print(tile.pawn)
+                        if tile.pawn is None:
+                            if (abs(tile.x_index - b.pawns[0].x) == 1 and tile.y_index == b.pawns[0].y) or (abs(tile.y_index - b.pawns[0].y) == 1 and tile.x_index == b.pawns[0].x):
+                                b.pawns[0].move(tile)
+                                break
+                    #for wall in tile.GetWalls():
+                    #    if wall is not None and wall.get_rect().collidepoint(inputs) and wall.active:
+                    #        wall.click(window.get_window(), (0, 255, 0))
+                    #        break
             
         window.update()
         await asyncio.sleep(0.01)

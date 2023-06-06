@@ -30,7 +30,7 @@ class Wall:
     def hover(self, win, color):
         pygame.draw.rect(win, color, self.graphic)
     
-    def click(self):
+    def click(self): # TODO : rename to place wall
         self.placed = True
         self.active = False
 

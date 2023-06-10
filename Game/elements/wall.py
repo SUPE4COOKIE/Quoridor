@@ -33,5 +33,9 @@ class Wall:
     def click(self): # TODO : rename to place wall
         self.placed = True
         self.active = False
+    
+    def remove(self):
+        self.placed = False
+        self.active = True
 
 

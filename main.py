@@ -9,7 +9,7 @@ import asyncio
 
 async def game_logic(struct) -> None:
     # some menu to give back the number of players and the size of the board
-    struct.NUMBER_OF_PLAYERS = 1
+    struct.NUMBER_OF_PLAYERS = 2
     struct.BOARD_SIZE = 7
     struct.INITIAL_WALL_COUNT = 40
     struct.WIDTH = 825
@@ -68,6 +68,7 @@ async def game_logic(struct) -> None:
                                         struct.placed_wall = True
                                         wall.click()
                                         neighbor.click()
+                                        print(b.is_path_to_victory(local_game.get_player_turn()))
                                         local_game.decrement_wall_counter()
                                         local_game.switch_player_turn()
                                     break

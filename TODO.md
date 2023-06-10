@@ -7,11 +7,12 @@ TODO
  - [x] check win conditions   (add win message !!!)   
  - [x] add info displayer       
  - [ ] !!! check unwinable walls !!!
+ - [ ] recheck wall placement !!!
  - [ ] selection Menu
- - [ ] !!! add the network part !!!
  - [ ] add Computer play
+ - [ ] !!! add the network part !!!
 
  - [ ] remove every hard coded value (view the #TODO)
  - [ ] Clean code
- 
+
  - [ ] Write documentation

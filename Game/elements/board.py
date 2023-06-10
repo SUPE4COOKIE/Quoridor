@@ -1,6 +1,7 @@
 from Game.elements.tile import Tile
 from Game.elements.wall import Wall
 from Game.elements.pawn import Pawn
+
 class Board:
     #TODO : const some non changing values
     def __init__(self, struct):
@@ -74,13 +75,25 @@ class Board:
             pawn.draw_on_tile(win, self.tiles[pawn.y][pawn.x])
 
     def get_neighbor(self, x, y, orientation):
-        if orientation == 1:
-            if y < 6: #TODO : hard coded 6
+        if orientation == 1 or orientation == 3:
+            if y < self.size - 1: #TODO : hard coded 6
                 return self.tiles[y+1][x].GetWalls()[orientation]
             else:
                 return self.tiles[y-1][x].GetWalls()[orientation]
         else:
-            if x < 6:
+            if x < self.size - 1:
+                return self.tiles[y][x+1].GetWalls()[orientation]
+            else:
+                return self.tiles[y][x-1].GetWalls()[orientation]
+    
+    def get_neighbor_tile(self, x, y, orientation):
+        if orientation == 1 or orientation == 3:
+            if y < self.size - 1: #TODO : hard coded 6
+                return self.tiles[y+1][x].GetWalls()[orientation]
+            else:
+                return self.tiles[y-1][x].GetWalls()[orientation]
+        else:
+            if x < self.size - 1:
                 return self.tiles[y][x+1].GetWalls()[orientation]
             else:
                 return self.tiles[y][x-1].GetWalls()[orientation]
@@ -147,6 +160,7 @@ class Board:
 
 
         return False
+    
 
     def is_wall_placeable(self, tile, orientation):
 
@@ -155,11 +169,9 @@ class Board:
         if neighbor.placed:
             return False
         
-        if orientation == 1 and tile.wall_down.placed:
+        if (orientation == 1 or orientation == 3) and tile.wall_down.placed:
             return False
-        elif orientation == 2 and tile.wall_right.placed:
-            return False
-        elif orientation != 1 and orientation != 2:
+        elif (orientation == 2 or orientation == 0) and tile.wall_right.placed:
             return False
         
         return True
@@ -173,4 +185,64 @@ class Board:
             return self.pawns[player_number].x == 0
         else:
             return self.pawns[player_number].x == self.size - 1
-            
+    
+    def is_move_possible_bfs(self, start_tile, end_tile):
+        diff_x = abs(start_tile.x_index - end_tile.x_index)
+        diff_y = abs(start_tile.y_index - end_tile.y_index)
+        is_horizontal_move = (diff_x == 1) and (start_tile.y_index == end_tile.y_index)
+        is_vertical_move = (diff_y == 1) and (start_tile.x_index == end_tile.x_index)
+
+        if is_horizontal_move:
+            if start_tile.x_index < end_tile.x_index: # moving right
+                return not start_tile.wall_right.placed
+            else: # moving left
+                return not start_tile.wall_left.placed
+        elif is_vertical_move:
+            if start_tile.y_index < end_tile.y_index: # moving down
+                return not start_tile.wall_down.placed
+            else: # moving up
+                return not start_tile.wall_up.placed
+        return False
+
+        
+    def get_possible_neighbors(self, tile):
+        neighbors = []
+        dx = [-1, 1, 0, 0]
+        dy = [0, 0, -1, 1]
+
+        # check if not out of bounds
+        for i in range(4):
+            x = tile.x_index + dx[i]
+            y = tile.y_index + dy[i]
+            if x >= 0 and x < self.size and y >= 0 and y < self.size:
+                if self.is_move_possible_bfs(tile, self.tiles[y][x]):
+                    neighbors.append(self.tiles[y][x])
+        
+        return neighbors
+
+    def is_path_to_victory(self, player_number):
+        starting_tile = self.tiles[self.pawns[player_number].y][self.pawns[player_number].x]
+        reachable_tiles = [starting_tile]
+        visited = [[False]*self.size for _ in range(self.size)]
+        visited[starting_tile.y_index][starting_tile.x_index] = True
+
+        queue = [starting_tile]
+
+        while queue:
+            current_tile = queue.pop(0)
+
+            neighbors = self.get_possible_neighbors(current_tile)
+
+            for neighbor in neighbors:
+                if not visited[neighbor.y_index][neighbor.x_index]:
+                    queue.append(neighbor)
+                    reachable_tiles.append(neighbor)
+                    visited[neighbor.y_index][neighbor.x_index] = True
+        
+        for i in reachable_tiles:
+            if player_number == 0:
+                if i.y_index == 0:
+                    return True
+
+        return False
+

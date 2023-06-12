@@ -5,20 +5,24 @@ from pygame import init, quit as pygame_quit
 from Game.elements.board import Board
 from Game.elements.game_info import info
 from local_game import LocalGame
+from menu import Menu
 import asyncio
+
 
 async def game_logic(struct) -> None:
     # some menu to give back the number of players and the size of the board
-    struct.NUMBER_OF_PLAYERS = 2
-    struct.BOARD_SIZE = 7
-    struct.INITIAL_WALL_COUNT = 40
+    game_propreties = Menu(struct).select_game_options()
+    local_game = LocalGame(struct)
+    local_game.init_board_size(game_propreties[0])
+    local_game.init_number_of_players(game_propreties[1])
+    local_game.init_number_of_walls(game_propreties[2])
+    local_game.init_wall_counter()
+    
     struct.WIDTH = 825
     struct.HEIGHT = 925
     # TODO : implement the choice instead of hard coded values
     window = NewWindow(struct.WIDTH, struct.HEIGHT , "Game")
     infos = info(struct, window.get_window())
-    local_game = LocalGame(struct)
-    local_game.init_wall_counter()
 
     b = Board(struct)
     while struct.is_running:

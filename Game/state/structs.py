@@ -1,5 +1,4 @@
 
-# board struct is represented by an array of arrays that contains dicts for every cells
 from asyncio import Queue
 class GameStructs:
     def __init__(self) -> None:
@@ -23,7 +22,7 @@ class GameStructs:
             5: 155,
             7: 135,
             9: 110,
-            11: 90
+            11: 85
         }
         self.WALL_HEIGHT = 20
         self.current_player = 0

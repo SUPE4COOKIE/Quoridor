@@ -1,7 +1,7 @@
 import pygame
 
 class Wall:
-    def __init__(self, x, y, type,active=True):
+    def __init__(self, x, y,width,height, type,active=True):
         self.x = x
         self.y = y
         self.type = type
@@ -9,11 +9,12 @@ class Wall:
         self.placed = False
 
         if type == "horizontal":
-            self.width = 135
-            self.height = 20
+            self.width = width
+            self.height = height
         elif type == "vertical":
-            self.width = 20
-            self.height = 135
+            self.width = height
+            self.height = width
+
 
         self.graphic = pygame.Rect(self.x, self.y, self.width, self.height)
 

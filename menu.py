@@ -69,7 +69,7 @@ class Menu:
                     if self.confirm_rect.collidepoint(x, y):
                         pygame.quit()
                         return (
-                            int(self.BOARD_SIZES[selected_board_size_index][0]),
+                            int(self.BOARD_SIZES[selected_board_size_index][0] if self.BOARD_SIZES[selected_board_size_index][0] != '1' else self.BOARD_SIZES[selected_board_size_index][0:2]),
                             int(self.NUMBERS_OF_PLAYERS[selected_number_of_players_index]),
                             int(self.NUMBERS_OF_BARRIERS[selected_number_of_barriers_index]),
                             int(self.NUMBERS_OF_BOTS[selected_number_of_bots_index])

@@ -8,7 +8,7 @@ TODO
  - [x] add info displayer       
  - [ ] !!! check unwinable walls !!!
  - [ ] recheck wall placement !!!
- - [ ] selection Menu
+ - [x] selection Menu
  - [ ] add Computer play
  - [ ] !!! add the network part !!!
 

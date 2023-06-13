@@ -10,7 +10,9 @@ class Board:
         self.PLAYER_COLORS = struct.PLAYER_COLORS
         self.tiles = []
         self.__init_pawns()
-        self.tile_size = 115
+        self.WALL_WIDTH = struct.WALL_WIDTH[self.size]
+        self.WALL_HEIGHT = struct.WALL_HEIGHT
+        self.TILE_SIZE = struct.TILE_SIZES[self.size] + self.WALL_HEIGHT
         self.__init_tiles()
 
 
@@ -26,12 +28,12 @@ class Board:
                 left_active = not (j == 0)
     
                 # Setup Wall object, reusing if available
-                up = self.tiles[i - 1][j].wall_down if i > 0 else Wall(j * self.tile_size, i * self.tile_size, "horizontal", active=top_active)
-                right = Wall((j + 1) * self.tile_size, i * self.tile_size, "vertical", active=right_active)
-                down = Wall(j * self.tile_size, (i + 1) * self.tile_size, "horizontal", active=bottom_active)
-                left = row[-1].wall_right if j > 0 else Wall(j * self.tile_size, i * self.tile_size, "vertical", active=left_active)
+                up = self.tiles[i - 1][j].wall_down if i > 0 else Wall(j * self.TILE_SIZE, i * self.TILE_SIZE,self.WALL_WIDTH,self.WALL_HEIGHT, "horizontal", active=top_active)
+                right = Wall((j + 1) * self.TILE_SIZE, i * self.TILE_SIZE,self.WALL_WIDTH,self.WALL_HEIGHT, "vertical", active=right_active)
+                down = Wall(j * self.TILE_SIZE, (i + 1) * self.TILE_SIZE,self.WALL_WIDTH,self.WALL_HEIGHT, "horizontal", active=bottom_active)
+                left = row[-1].wall_right if j > 0 else Wall(j * self.TILE_SIZE, i * self.TILE_SIZE,self.WALL_WIDTH,self.WALL_HEIGHT, "vertical", active=left_active)
     
-                tile = Tile(j * self.tile_size + 20, i * self.tile_size + 20,(j,i), up, right, down, left)
+                tile = Tile(j * self.TILE_SIZE + self.WALL_HEIGHT, i * self.TILE_SIZE + self.WALL_HEIGHT,self.TILE_SIZE,(j,i), up, right, down, left)
                 row.append(tile)
     
             self.tiles.append(row)

@@ -3,13 +3,13 @@ from Game.elements.wall import Wall
 import pygame
 
 class Tile:
-    def __init__(self, x, y,index, wall_up, wall_right, wall_down, wall_left):
+    def __init__(self, x, y,size,index, wall_up, wall_right, wall_down, wall_left):
         self.x = x
         self.y = y
         self.x_index = index[0]
         self.y_index = index[1]
 
-        self.size = 95
+        self.size = size - 20
 
         # instance of walls
         self.wall_up = wall_up

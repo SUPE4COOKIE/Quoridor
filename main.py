@@ -25,6 +25,7 @@ async def game_logic(struct) -> None:
     infos = info(struct, window.get_window())
 
     b = Board(struct)
+    local_game.init_bots(game_propreties[3],b)
     while struct.is_running:
         b.draw_walls(window.get_window())
         b.draw_pawns(window.get_window())

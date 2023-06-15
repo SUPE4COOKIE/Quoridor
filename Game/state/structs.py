@@ -13,9 +13,7 @@ class GameStructs:
         self.NUMBERS_OF_BOTS = ["0", "1", "2"]
         self.MAX_NUMBER_OF_BARRIERS = {0: 2, 1: 4, 2: 7, 3: 10} # limit the number of barrier based on the board size (index of each)
         self.TILE_SIZES = {
-            5: 141
-            
-            ,
+            5: 141,
             7: 95,
             9: 70,
             11: 53
@@ -31,4 +29,5 @@ class GameStructs:
         self.current_player = 0
         self.PLAYER_COLORS = [(255, 0, 0), (0, 0, 255), (0, 255, 0), (255, 255, 0)]
         self.remaining_walls = []
+        self.bot_instances = {}
 

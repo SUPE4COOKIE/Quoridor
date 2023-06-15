@@ -1,3 +1,4 @@
+from Game.game_events.bot_play import Bot
 class LocalGame:
     def __init__(self, struct):
         self.struct = struct # save reference to the struct
@@ -26,3 +27,7 @@ class LocalGame:
     
     def init_number_of_walls(self, number):
         self.struct.INITIAL_WALL_COUNT = number
+
+    def init_bots(self, number, board):
+        for i in range(1, number + 1):
+            self.struct.bot_instances[i] = Bot(i)

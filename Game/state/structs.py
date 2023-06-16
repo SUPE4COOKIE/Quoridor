@@ -7,6 +7,8 @@ class GameStructs:
         self.hovered_wall = False
         self.placed_wall = False
         self.is_running = True
+        self.WIDTH = 825
+        self.HEIGHT = 925
         self.BOARD_SIZES = ["5x5", "7x7", "9x9", "11x11"]
         self.NUMBERS_OF_BARRIERS = [str(i) for i in range(4, 41, 4)]  # Multiples of 4 from 4 to 40
         self.NUMBERS_OF_PLAYERS = ["2", "4"]

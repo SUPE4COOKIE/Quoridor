@@ -10,7 +10,7 @@ import asyncio
 
 
 async def game_logic(struct) -> None:
-    # some menu to give back the number of players and the size of the board
+    
     game_propreties = Menu(struct).select_game_options()
     local_game = LocalGame(struct)
     local_game.init_board_size(game_propreties[0])
@@ -18,9 +18,6 @@ async def game_logic(struct) -> None:
     local_game.init_number_of_walls(game_propreties[2])
     local_game.init_wall_counter()
     
-    struct.WIDTH = 825
-    struct.HEIGHT = 925
-    # TODO : implement the choice instead of hard coded values
     window = NewWindow(struct.WIDTH, struct.HEIGHT , "Game")
     infos = info(struct, window.get_window())
 
@@ -89,21 +86,41 @@ async def game_logic(struct) -> None:
         await asyncio.sleep(0.01)
 
 
-async def main():
+async def main() -> None:
+    """
+    The main entry point for the game.
+
+    This function creates two tasks to run concurrently: an event loop task and a game logic task.
+    It then waits for both tasks to complete.
+
+    If either task raises an exception, this function cancels both tasks and waits for them to complete again
+    with return_exceptions=True to suppress any exceptions.
+
+    Finally, this function calls pygame_quit to cleanly exit the Pygame application.
+    """
+    # Create a GameStructs object to hold the game state
     struct = GameStructs()
+
+    # Create tasks for the event loop and game logic
     event_task = asyncio.create_task(event_loop(struct))
     game_logic_task = asyncio.create_task(game_logic(struct))
 
     try:
+        # Wait for both tasks to complete
         await asyncio.gather(game_logic_task, event_task)
     except asyncio.CancelledError:
         pass
     finally:
+        # If either task is not done, cancel it
         if not game_logic_task.done():
             game_logic_task.cancel()
         if not event_task.done():
             event_task.cancel()
+
+        # Wait for both tasks to complete again with return_exceptions=True to suppress any exceptions
         await asyncio.gather(game_logic_task, event_task, return_exceptions=True)
+
+        # Cleanly exit the Pygame application
         pygame_quit()
 
 

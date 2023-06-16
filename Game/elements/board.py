@@ -172,6 +172,9 @@ class Board:
         if neighbor.placed:
             return False
         
+        if not tile.GetWalls()[orientation].active:
+            return False
+        
         if (orientation == 1 or orientation == 3) and tile.wall_down.placed:
             return False
         elif (orientation == 2 or orientation == 0) and tile.wall_right.placed:

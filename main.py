@@ -31,6 +31,11 @@ async def game_logic(struct) -> None:
         b.draw_pawns(window.get_window())
         infos.show()
 
+
+        if local_game.get_player_turn() in struct.bot_instances.keys():
+            struct.bot_instances[local_game.get_player_turn()].play()
+            local_game.switch_player_turn()
+
         if not struct.mouse_position_queue.empty():
             mouse_position = struct.mouse_position_queue.get_nowait()
             for y, row in enumerate(b.tiles):

@@ -9,7 +9,7 @@ TODO
  - [ ] !!! check unwinable walls !!!
  - [ ] recheck wall placement !!!
  - [x] selection Menu
- - [ ] add Computer play
+ - [x] add Computer play
  - [ ] !!! add the network part !!!
 
  - [ ] remove every hard coded value (view the #TODO)

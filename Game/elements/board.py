@@ -1,6 +1,7 @@
 from Game.elements.tile import Tile
 from Game.elements.wall import Wall
 from Game.elements.pawn import Pawn
+from secrets import choice
 
 class Board:
     #TODO : const some non changing values
@@ -171,6 +172,9 @@ class Board:
         if neighbor.placed:
             return False
         
+        if not tile.GetWalls()[orientation].active:
+            return False
+        
         if (orientation == 1 or orientation == 3) and tile.wall_down.placed:
             return False
         elif (orientation == 2 or orientation == 0) and tile.wall_right.placed:
@@ -248,3 +252,29 @@ class Board:
 
         return False
 
+
+    def get_random_neighbor_tile(self, player):
+        # Getting current position of the player's pawn
+        x, y = self.pawns[player].x, self.pawns[player].y
+        
+        # Getting possible neighbor tiles
+        neighbors = self.get_possible_neighbors(self.tiles[y][x])
+        
+        # Securely and randomly selecting a neighbor
+        return choice(neighbors)
+
+    def get_random_possible_wall(self):
+        # List to store tiles with possible wall placements
+        possible_walls = []
+        
+        # Iterate through all tiles
+        for row in self.tiles:
+            for tile in row:
+                # Check each orientation (0 to 3)
+                for orientation in range(4):
+                    # Check if a wall can be placed at this orientation
+                    if self.is_wall_placeable(tile, orientation):
+                        possible_walls.append((tile, orientation))
+        
+        # Securely and randomly selecting a tile and orientation for wall placement
+        return choice(possible_walls)

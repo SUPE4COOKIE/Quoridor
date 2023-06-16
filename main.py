@@ -4,8 +4,8 @@ from Game.state.structs import GameStructs
 from pygame import init, quit as pygame_quit
 from Game.elements.board import Board
 from Game.elements.game_info import info
-from local_game import LocalGame
-from menu import Menu
+from Game.game_events.local_game import LocalGame
+from Game.elements.menu import Menu
 import asyncio
 
 
@@ -25,10 +25,16 @@ async def game_logic(struct) -> None:
     infos = info(struct, window.get_window())
 
     b = Board(struct)
+    local_game.init_bots(game_propreties[3],b)
     while struct.is_running:
         b.draw_walls(window.get_window())
         b.draw_pawns(window.get_window())
         infos.show()
+
+
+        if local_game.get_player_turn() in struct.bot_instances.keys():
+            struct.bot_instances[local_game.get_player_turn()].play()
+            local_game.switch_player_turn()
 
         if not struct.mouse_position_queue.empty():
             mouse_position = struct.mouse_position_queue.get_nowait()
@@ -72,7 +78,7 @@ async def game_logic(struct) -> None:
                                         struct.placed_wall = True
                                         wall.click()
                                         neighbor.click()
-                                        print(b.is_path_to_victory(local_game.get_player_turn()))
+                                        print(b.is_path_to_victory(local_game.get_player_turn()), local_game.get_player_turn())
                                         local_game.decrement_wall_counter()
                                         local_game.switch_player_turn()
                                     break

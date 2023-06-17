@@ -10,8 +10,6 @@ class Menu:
         self.NUMBERS_OF_BARRIERS = struct.NUMBERS_OF_BARRIERS  # Multiples of 4 from 4 to 40
         self.MAX_NUMBER_OF_BARRIERS = struct.MAX_NUMBER_OF_BARRIERS # limit the number of barrier based on the board size (index of each)
         self.NUMBERS_OF_BOTS = struct.NUMBERS_OF_BOTS
-        self.online_play = False
-        self.server_ip = ""
         self.SCREEN_WIDTH = 600
         self.SCREEN_HEIGHT = 400
         self.SCREEN = NewWindow(self.SCREEN_WIDTH, self.SCREEN_HEIGHT, "Board Game Menu").get_window()

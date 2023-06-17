@@ -31,3 +31,6 @@ class LocalGame:
     def init_bots(self, number, board):
         for i in range(1, number + 1):
             self.struct.bot_instances[i] = Bot(i,board)
+    
+    def game_over(self):
+        self.struct.is_running = False

@@ -62,7 +62,7 @@ class Board:
             self.pawns.append(Pawn(x, y, color))
 
 
-    def draw_walls(self, win): #TODO : Change the name
+    def draw_tiles(self, win):
         for row in self.tiles:
             for tile in row:
                 tile.draw(win)
@@ -226,31 +226,58 @@ class Board:
         
         return neighbors
 
-    def is_path_to_victory(self, player_number):
-        starting_tile = self.tiles[self.pawns[player_number].y][self.pawns[player_number].x]
-        reachable_tiles = [starting_tile]
-        visited = [[False]*self.size for _ in range(self.size)]
-        visited[starting_tile.y_index][starting_tile.x_index] = True
+    def is_path_to_victory_for_all_players(self):
+        for player_number in range(self.players):
+            starting_tile = self.tiles[self.pawns[player_number].y][self.pawns[player_number].x]
+            reachable_tiles = [starting_tile]
+            visited = [[False]*self.size for _ in range(self.size)]
+            visited[starting_tile.y_index][starting_tile.x_index] = True
 
-        queue = [starting_tile]
+            queue = [starting_tile]
 
-        while queue:
-            current_tile = queue.pop(0)
+            while queue:
+                current_tile = queue.pop(0)
 
-            neighbors = self.get_possible_neighbors(current_tile)
+                neighbors = self.get_possible_neighbors(current_tile)
 
-            for neighbor in neighbors:
-                if not visited[neighbor.y_index][neighbor.x_index]:
-                    queue.append(neighbor)
-                    reachable_tiles.append(neighbor)
-                    visited[neighbor.y_index][neighbor.x_index] = True
-        
-        for i in reachable_tiles:
-            if player_number == 0:
-                if i.y_index == 0:
-                    return True
+                for neighbor in neighbors:
+                    if not visited[neighbor.y_index][neighbor.x_index]:
+                        queue.append(neighbor)
+                        reachable_tiles.append(neighbor)
+                        visited[neighbor.y_index][neighbor.x_index] = True
 
-        return False
+            player_reached_target = False
+
+            for i in reachable_tiles:
+                # Check if Player 0 has reached the top row
+                if player_number == 0:
+                    if i.y_index == 0:
+                        player_reached_target = True
+                        break
+
+                # Check if Player 1 has reached the bottom row
+                elif player_number == 1:
+                    if i.y_index == self.size - 1:
+                        player_reached_target = True
+                        break
+
+                # Check if Player 2 has reached the leftmost column
+                elif player_number == 2:
+                    if i.x_index == 0:
+                        player_reached_target = True
+                        break
+
+                # Check if Player 3 has reached the rightmost column
+                else:
+                    if i.x_index == self.size - 1:
+                        player_reached_target = True
+                        break
+
+            if not player_reached_target:
+                return False
+
+        return True
+
 
 
     def get_random_neighbor_tile(self, player):

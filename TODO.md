@@ -1,13 +1,12 @@
 TODO
 
  - [X] Player turn system
- - [X] jump over player              (known bug multiple player jump at border)
+ - [X] jump over player
  - [X] patch double wall placement
  - [x] limit number of walls
- - [x] check win conditions   (add win message !!!)   
+ - [x] check win conditions
  - [x] add info displayer       
- - [ ] !!! check unwinable walls !!!
- - [ ] recheck wall placement !!!
+ - [x] !!! check unwinable walls !!!
  - [x] selection Menu
  - [x] add Computer play
  - [ ] !!! add the network part !!!

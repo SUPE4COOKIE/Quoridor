@@ -18,11 +18,13 @@ class Tile:
         self.wall_left = wall_left
         
         self.pawn = None
-        self.color = (200, 200, 200)
+        self.COLOR = (250,237,205)
+        self.HOVER_COLOR = (219, 209, 186)
+
 
     def draw(self, win):
         # Draw the tile itself as a rectangle
-        self.rect = pygame.draw.rect(win, self.color, (self.x, self.y, self.size, self.size))
+        self.rect = pygame.draw.rect(win, self.COLOR, (self.x, self.y, self.size, self.size))
         self.win = win
         self.draw_walls(win, [True, True, True, True])
 
@@ -33,7 +35,7 @@ class Tile:
                 walls[i].draw(win)
 
     def hover(self):
-        pygame.draw.rect(self.win, (160, 160, 160), self.rect)
+        pygame.draw.rect(self.win, self.HOVER_COLOR ,self.rect)
     
     def get_rect(self):
         return self.rect

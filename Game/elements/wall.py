@@ -7,6 +7,10 @@ class Wall:
         self.type = type
         self.active = active
         self.placed = False
+        self.PLACED_COLOR = (124, 86, 47)
+        self.UNPLACED_COLOR = (212, 163, 115)
+        self.HOVER_COLOR = (204, 213, 174)
+
 
         if type == "horizontal":
             self.width = width
@@ -21,15 +25,15 @@ class Wall:
 
     def draw(self, win):
         if self.placed:
-            pygame.draw.rect(win, (0, 0, 0), self.graphic)
+            pygame.draw.rect(win, self.PLACED_COLOR, self.graphic)
         else:
-            pygame.draw.rect(win, (255, 0, 0), self.graphic)
+            pygame.draw.rect(win, self.UNPLACED_COLOR, self.graphic)
 
     def get_rect(self):
         return self.graphic
 
-    def hover(self, win, color):
-        pygame.draw.rect(win, color, self.graphic)
+    def hover(self, win):
+        pygame.draw.rect(win, self.HOVER_COLOR, self.graphic)
     
     def click(self): # TODO : rename to place wall
         self.placed = True

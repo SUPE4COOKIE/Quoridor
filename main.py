@@ -6,6 +6,7 @@ from Game.elements.board import Board
 from Game.elements.game_info import info
 from Game.game_events.local_game import LocalGame
 from Game.elements.menu import Menu
+from Game.elements.win_popup import WinPopup
 import asyncio
 
 
@@ -48,8 +49,8 @@ async def game_logic(struct) -> None:
                                     struct.hovered_wall = True
                                     neighbor = b.get_neighbor(x, y, orientation)
                                     if b.is_wall_placeable(tile, orientation):
-                                        wall.hover(window.get_window(), (0, 255, 0))
-                                        neighbor.hover(window.get_window(), (0, 255, 0))
+                                        wall.hover(window.get_window())
+                                        neighbor.hover(window.get_window())
                                     break
             struct.hovered_wall = False
 
@@ -63,7 +64,9 @@ async def game_logic(struct) -> None:
                         if b.is_move_possible(tile, local_game.get_player_turn()):
                             b.pawns[local_game.get_player_turn()].move(tile)
                             if b.is_winner(local_game.get_player_turn()):
-                                print("Player {} wins".format(local_game.get_player_turn()))
+                                WinPopup(__file__).display(struct.WIN_MESSAGE.format(local_game.get_player_turn() + 1))
+                                local_game.game_over()
+                                break
                             local_game.switch_player_turn()
                             break
                     if local_game.get_wall_counter() > 0:

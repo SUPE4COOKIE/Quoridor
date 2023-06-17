@@ -29,6 +29,7 @@ class GameStructs:
 
         self.WALL_HEIGHT = 20
         self.current_player = 0
+        self.WIN_MESSAGE = "Player {} wins!"
         self.PLAYER_COLORS = [(255, 0, 0), (0, 0, 255), (0, 255, 0), (255, 255, 0)]
         self.remaining_walls = []
         self.bot_instances = {}

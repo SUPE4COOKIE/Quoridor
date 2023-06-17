@@ -8,7 +8,6 @@ class Bot:
     def play(self):
         actions = [self.board.get_random_neighbor_tile(self.player_id), self.board.get_random_possible_wall()]
         result = choice(actions)
-        print(result)
         if result is not None and result.__class__.__name__ == "Tile":
             self.pawn.move(result)
         else:

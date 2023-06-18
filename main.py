@@ -3,7 +3,7 @@ from Game.inputs.events import event_loop
 from Game.state.structs import GameStructs
 from pygame import init, quit as pygame_quit
 from Game.elements.board import Board
-from Game.elements.game_info import info
+from Game.elements.game_info import Info
 from Game.game_events.local_game import LocalGame
 from Game.elements.menu import Menu
 from Game.elements.win_popup import WinPopup
@@ -35,7 +35,7 @@ async def game_logic(struct: Any) -> None:
     window = NewWindow(struct.WIDTH, struct.HEIGHT, "Game")
     
     # Initialize game information to be displayed on the screen
-    infos = info(struct, window.get_window())
+    infos = Info(struct, window.get_window())
 
     # Create a game board
     b = Board(struct)

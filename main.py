@@ -115,8 +115,8 @@ async def game_logic(struct: Any) -> None:
                                     neighbor = b.get_neighbor(x, y, orientation) # Get the neighbor tile to make a wall of size 2
                                     if b.is_wall_placeable(tile, orientation):
                                         struct.placed_wall = True # Set the flag to avoid double placement
-                                        wall.click()
-                                        neighbor.click()
+                                        wall.place()
+                                        neighbor.place()
                                         # Remove the wall if it block a player's path to victory
                                         if not b.is_path_to_victory_for_all_players():
                                             wall.remove()

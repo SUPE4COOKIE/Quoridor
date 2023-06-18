@@ -34,7 +34,7 @@ class Board:
                 down = Wall(j * self.TILE_SIZE, (i + 1) * self.TILE_SIZE,self.WALL_WIDTH,self.WALL_HEIGHT, "horizontal", active=bottom_active)
                 left = row[-1].wall_right if j > 0 else Wall(j * self.TILE_SIZE, i * self.TILE_SIZE,self.WALL_WIDTH,self.WALL_HEIGHT, "vertical", active=left_active)
     
-                tile = Tile(j * self.TILE_SIZE + self.WALL_HEIGHT, i * self.TILE_SIZE + self.WALL_HEIGHT,self.TILE_SIZE,(j,i), up, right, down, left)
+                tile = Tile(j * self.TILE_SIZE + self.WALL_HEIGHT, i * self.TILE_SIZE + self.WALL_HEIGHT,self.TILE_SIZE,(j,i), up, right, down, left, self.WALL_HEIGHT)
                 row.append(tile)
     
             self.tiles.append(row)
